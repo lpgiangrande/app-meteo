@@ -1,5 +1,5 @@
 import daysInOrder from './Utilitaire/gestionTemps.js';
-//console.log('depuis main.js' + daysInOrder);
+//console.log('depuis main.js ' + daysInOrder);
 
 const APIKEY = 'a89fee2489ffcb6afe914f3c3897981a';
 let apiResults;
@@ -13,6 +13,7 @@ const tempPourH = document.querySelectorAll('.heure-prevision-valeur');
 const joursDiv = document.querySelectorAll('.jour-prevision-nom');
 const tempJoursDiv = document.querySelectorAll('.jour-prevision-temp');
 const icone = document.querySelector('.logo-meteo');
+const chargementContainer = document.querySelector('.overlay-icone-chargement');
 
 if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(position => {
@@ -50,7 +51,7 @@ function AppelAPI(longitude, latitude) {
         localisation.innerText = apiResults.timezone;
 
 
-        // On veut afficher les heures par tranches de 3, avec leurs températures
+        // On veut afficher les heures par tranches de 3, avec leurs températures :
 
         let heureActuelle = new Date().getHours();
 
@@ -60,7 +61,8 @@ function AppelAPI(longitude, latitude) {
             // ex : 14h + ( i(position) * 3 ) -> décale de 3 à chaque tour de boucle : 14h + 3 = 17h pour prochaine case
       
     
-            // Pour ne pas avoir 14h....26h, 29h...Condition if
+            // Pour ne pas avoir 14h....26h, 29h...Condition if :
+
             if (heureIncr > 24){
                 heure[i].innerText = `${heureIncr - 24} h`; // si 26h, on passe à 2h du matin
             } else if(heureIncr === 24){
@@ -71,25 +73,30 @@ function AppelAPI(longitude, latitude) {
         }
 
 
-        // Afficher les températures associées aux heures
+        // Afficher les températures associées aux heures :
+
         for(let j=0; j < tempPourH.length; j++){
             tempPourH[j].innerText = `${Math.trunc(apiResults.hourly[j * 3].temp)}°`;
         }
+
 
         // 3 1ers jours
 
         //Pour chacun de ces blocs, on itère sur le tableau des jours en ordre importé
         //on prend le jour qui correspond au carré et on prend les 3 1eres lettres de la chaîne de caractère 
+        
         for(let k = 0; k < daysInOrder.length; k++){
             joursDiv[k].innerText = daysInOrder[k].slice(0,3);
         }
 
         // température par jour
+
         for(let l = 0; l < 7; l++){
             tempJoursDiv[l].innerText =`${Math.trunc(apiResults.daily[l + 1].temp.day)}°`;
         }
 
         //Icône dynamique
+
         if (heureActuelle >= 6 && heureActuelle < 21) {
             icone.src = `ressources/jour/${apiResults.current.weather[0].icon}.svg`;
         } else {
@@ -98,6 +105,11 @@ function AppelAPI(longitude, latitude) {
         //apiResults.current.weather[0].icon = on récupère le code icons de l'API
         //on a renommé des icones trouvées sur le net avec ces codes pour que cela corresponde
         //selon l'heure du jour et la météo, on affiche des îcones différentes
+
+
+        /* Animation chargement */
+        //Dès qu'on reçoit les données de l'API, l'icône chargement ne reste pas (si pb, on voit juste le logo chargement)
+        chargementContainer.classList.add('disparition'); //On ajoute la classe disparition (opacity 0)
     })
 }
 
