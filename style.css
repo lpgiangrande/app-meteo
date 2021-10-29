@@ -136,6 +136,7 @@ donc, on met une bordure à droite des carrés, sauf le dernier */
 .overlay-icone-chargement img {
     width: 150px;
     position: absolute;
+    /* centrer dans son parent */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
