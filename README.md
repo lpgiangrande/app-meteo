@@ -1,4 +1,4 @@
 # app-meteo
 JS - application météo 
 
-----> preview and live site on branch main
+----> preview and live site on branch master
