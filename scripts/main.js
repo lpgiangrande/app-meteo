@@ -1,7 +1,7 @@
 import daysInOrder from './Utilitaire/gestionTemps.js';
 //console.log('depuis main.js ' + daysInOrder);
 
-const APIKEY = 'a89fee2489ffcb6afe914f3c3897981a';
+const APIKEY = '';
 let apiResults;
 
 // selectionner les classes temps, etc... pour affichage dynamique
